@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       - name: build fronend
-        run : docker build -t mern-:$(git log -1 --pretty=format:%h) ./client
+        run : docker build -t mern-fe:$(git log -1 --pretty=format:%h) ./client
       
       - name: build backend
         run: docker build -t mern-be:$(git log -1 --pretty=format:%h) ./server
