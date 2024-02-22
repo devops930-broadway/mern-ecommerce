@@ -38,7 +38,7 @@ jobs:
       - name: upload docker images
         run: |
           docker images
-          docker tag mern-fe:$(git log -1 --pretty=format:%h) ${{ vars.DOCKER_REGISTRY_FE }}:$(git log -1 --pretty=format:%h)
+          docker tag mern:$(git log -1 --pretty=format:%h) ${{ vars.DOCKER_REGISTRY_FE }}:$(git log -1 --pretty=format:%h)
           docker tag mern-be:$(git log -1 --pretty=format:%h) ${{ vars.DOCKER_REGISTRY_BE }}:$(git log -1 --pretty=format:%h)
 
           # push
