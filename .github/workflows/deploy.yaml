@@ -19,7 +19,7 @@ jobs:
       - name: Check if docker available or not
         run : |
           which docker
-	  echo  ${{ github.ref_name }} 
+	   
           echo ${{ vars.DOCKER_REGISTRY_FE }}
           echo ${{ vars.DOCKER_REGISTRY_BE }}
      
