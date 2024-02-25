@@ -70,10 +70,10 @@ jobs:
            terraform apply -auto-approve
          fi
 
-          terraform init
-          terraform validate
-          terraform plan
-          terraform apply -auto-approve
+          
+          
+          
+        
   deploy:
    runs-on: ubuntu-latest
    environment: ${{ github.ref_name }}
