@@ -61,6 +61,7 @@ jobs:
         working-directory: .github/IaC
         run: |
           public_ip=$(aws ec2 describe-instances --filters "Name=tag-value,Values=mern-instance-luminous" --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
+          echo $public_ip ...
           if [ -z $public_ip ]; then
             terraform init
             terraform validate
