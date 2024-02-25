@@ -60,7 +60,7 @@ resource "aws_instance" "mern-instance" {
 
 
   tags = {
-    Name    = "mern-instance"
+    Name    = "mern-instance-deployment-Ashutosh"
     Project = "devops"
   }
 
@@ -70,16 +70,16 @@ resource "aws_instance" "mern-instance" {
 output "public_ip" {
   value = aws_instance.mern-instance.public_ip
 }
-output "private_ip" {
-  value = aws_instance.mern-instance.private_ip
-}
+# output "private_ip" {
+#   value = aws_instance.mern-instance.private_ip
+# }
 
 
-output "aws_security_group" {
-  value = data.aws_security_groups.test.ids
-}
+# output "aws_security_group" {
+#   value = data.aws_security_groups.test.ids
+# }
 
-output "subnet_cidr_blocks" {
-  value = [for s in data.aws_subnet.default : s.id]
-}
+# output "subnet_cidr_blocks" {
+#   value = [for s in data.aws_subnet.default : s.id]
+# }
 
