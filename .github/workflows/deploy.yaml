@@ -46,7 +46,7 @@ jobs:
   create_ec2:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
-  
+ 
     steps:
       - uses: actions/checkout@v3
 
@@ -88,6 +88,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
      - name: update mern app
+       set -e
        working-directory: .github/scripts
        run: |
          sudo apt-get update
