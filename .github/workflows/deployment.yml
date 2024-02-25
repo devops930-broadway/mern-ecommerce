@@ -87,9 +87,12 @@ jobs:
       - name: update mern app
         working-directory: .github/scripts
         run: |
+          set -e
           sudo apt-get update
           sudo apt-get install -y expect
           echo updating app
+          aws ec2 describe-instances --filters "Name=tag-value,Values=mern-instance-deployment-Ashutosh" --query "Reservations[*].Instances[*].PublicIpAddress" --output text
           public_ip=$(aws ec2 describe-instances --filters "Name=tag-value,Values=mern-instance-deployment-Ashutosh" --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
           sleep 10
-          ./deploy.sh $public_ip
+          expect ./deploy.sh $public_ip
+
