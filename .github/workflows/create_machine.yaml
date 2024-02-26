@@ -1,4 +1,4 @@
-name: Create Lab Machine
+name: Create Lab MachineBishal
 
 on:
   workflow_dispatch:
