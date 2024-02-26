@@ -1,5 +1,4 @@
-
-name:Create Lab Machine
+name: Create Lab Machine
 
 on:
   workflow_dispatch:
@@ -36,5 +35,6 @@ jobs:
         run: |
           terraform init
           terraform validate
-	  terraform plan
+          terraform plan
           terraform apply -auto-approve
+  
