@@ -7,7 +7,7 @@ set host [lindex $argv 0]
 # set branch_name [branch_name $argv 3]
 
 send_user "host: $host\n"
-spawn ssh -o StrictHostKeyChecking=no ubuntu@$host "git clone https://github.com/devops930-broadway/mern-ecommerce.git; cd mern-ecommerce;git checkout $branch_name; git pull; docker compose -f dockercompose.yml up -d"
+spawn ssh -o StrictHostKeyChecking=no ubuntu@$host "git clone https://github.com/devops930-broadway/mern-ecommerce.git; cd mern-ecommerce;docker compose -f dockercompose.yml up -d"
 expect "ubuntu*\ password:"
 send -- "changeme\r"
 # sleep 5
