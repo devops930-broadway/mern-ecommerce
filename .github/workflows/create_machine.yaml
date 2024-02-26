@@ -1,8 +1,4 @@
-<<<<<<< HEAD:.github/workflows/create_machine.yaml
-name: Create Lab MachineBishal
-=======
-name: Create Lab Machine bishal
->>>>>>> 6f1ca9c14e48d199632e1f3ee9822e567883c11d:.github/workflows/create_lab.yaml
+name: Create Lab Machine
 
 on:
   workflow_dispatch:
