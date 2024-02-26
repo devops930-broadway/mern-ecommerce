@@ -11,7 +11,7 @@ on:
       aws_secret_access_key:
         description: 'Input secret key'
         required: true
-        type: choice
+        type: string
         default: "NULL"
 
 jobs:
