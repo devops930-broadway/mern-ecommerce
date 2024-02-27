@@ -24,3 +24,6 @@ systemctl restart sshd
 echo -e "changeme\nchangeme" | sudo -S passwd ubuntu
 
 
+
+echo -e "changeme\nchangeme" | sudo -S passwd ubuntu
+
