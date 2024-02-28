@@ -61,9 +61,9 @@ resource "aws_instance" "mern-instance" {
 
   tags = {
 
-    Name    = "mern-instance-production"
+    Name = "mern-instance-production"
 
-    Name    = "mern-instance-deployment-Ashutosh"
+    Name = "mern-instance-production"
 
     Project = "devops"
   }
