@@ -20,7 +20,8 @@ cat /home/ubuntu/.ssh/id_ecdsa.pub > /home/ubuntu/.ssh/authorized_keys
 echo "yes" | ansible all -m ping
 pwd
 ansible-galaxy role install geerlingguy.gitlab || true
+echo "Checking path..."
 cd ~/mern-ecommerce/.github/Ansible
 pwd
-ansible-playbook main.yaml
+ansible-playbook ~/mern-ecommerce/.github/Ansible/main.yaml
 
