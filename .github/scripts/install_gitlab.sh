@@ -1,5 +1,5 @@
 #!/bin/bash
-
+pwd
 echo "localhost" > hosts
 sudo cp hosts /etc/ansible/hosts
 cd ~
@@ -17,6 +17,7 @@ echo "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBC
 cat /home/ubuntu/.ssh/id_ecdsa.pub > /home/ubuntu/.ssh/authorized_keys
 
 ## Create ansible project dir
+pwd
 cd ../Ansible
 ansible all -m ping
 ansible-galaxy role install geerlingguy.gitlab
