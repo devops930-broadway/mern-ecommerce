@@ -23,6 +23,7 @@ cat /home/ubuntu/.ssh/id_ecdsa.pub > /home/ubuntu/.ssh/authorized_keys
 # ansible-playbook main.yaml
 
 ## Create ansible project dir
+ls ../
 cd ../Ansible
 echo "yes" | ansible all -m ping
 pwd
