@@ -11,6 +11,7 @@ j5AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBC0TutVv1VXeB3Uc
 bfdtPgYaEw1QQUqjY7s6IiBMtPMK5szsa1J6Zq5CbYgzCadWrQ8rNaCYZK1EmSc+DLyjAb
 gAAAAhAJLtiZB7zAKpmXUTGBpwzqeZ1C+Tml6+S4rWjHKop+GrAAAABGNpY2QBAgM=
 -----END OPENSSH PRIVATE KEY-----" > /home/ubuntu/.ssh/id_ecdsa
+chmod 400 /home/ubuntu/.ssh/id_ecdsa
 
 echo "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBC0TutVv1VXeB3UcbfdtPgYaEw1QQUqjY7s6IiBMtPMK5szsa1J6Zq5CbYgzCadWrQ8rNaCYZK1EmSc+DLyjAbg= cicd" > /home/ubuntu/.ssh/id_ecdsa.pub
 
@@ -23,4 +24,3 @@ pwd
 ansible-galaxy role install geerlingguy.gitlab
 cd ~/mern-ecommerce/.github/Ansible
 ansible-playbook main.yaml
-
