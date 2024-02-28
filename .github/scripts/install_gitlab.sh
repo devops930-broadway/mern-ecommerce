@@ -21,7 +21,7 @@ echo "yes" | ansible all -m ping
 pwd
 ansible-galaxy role install geerlingguy.gitlab || true
 echo "Checking path..."
-cd ~/mern-ecommerce/.github/Ansible
+cd /home/ubuntu/mern-ecommerce/.github/Ansible
 pwd
-ansible-playbook ~/mern-ecommerce/.github/Ansible/main.yaml
+ansible-playbook main.yaml
 
