@@ -27,6 +27,26 @@ data "aws_security_groups" "test" {
 }
 
 
+resource "aws_security_group" "hol-machine" {
+  name        = "hol-machine-sg"
+  description = "Security group for HOL instances"
+
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = -1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = -1
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+
 data "template_file" "user_data" {
   template = file("../scripts/user-data.sh")
 }
@@ -56,7 +76,7 @@ resource "aws_instance" "mern-instance" {
   instance_type = "t2.medium"
 
   subnet_id              = [for s in data.aws_subnet.default : s.id][0]
-  vpc_security_group_ids = data.aws_security_groups.test.ids
+   vpc_security_group_ids = [aws_security_group.hol-machine.id]
 
 
   tags = {
