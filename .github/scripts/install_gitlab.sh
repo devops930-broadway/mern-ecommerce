@@ -23,7 +23,7 @@ cat /home/ubuntu/.ssh/id_ecdsa.pub > /home/ubuntu/.ssh/authorized_keys
 # ansible-playbook main.yaml
 
 ## Create ansible project dir
-cd .github/Ansible
+cd ../Ansible
 echo "yes" | ansible all -m ping
 pwd
 ansible-galaxy role install geerlingguy.gitlab
