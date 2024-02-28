@@ -13,6 +13,17 @@ on:
         required: true
         type: string
         default: "NULL"
+        
+        create_lab_machine:
+        description: 'Input key id'
+        required: true
+        type: choice
+        default: "ec2-instance"
+        options:
+          - Gitlab
+          - Jenkins
+          - K8S
+          - ec2-instance
 
 jobs:
   create-ec2-instance:
@@ -38,3 +49,13 @@ jobs:
           terraform plan
           terraform apply -auto-approve
   
+          fi
+      - name: Create Gitlab Instance
+        working-directory: .github/scripts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y expect
+          if [[ "${{ github.event.inputs.create_lab_machine }}" == "Gitlab" ]]; then
+            public_ip=$(aws ec2 describe-instances --filters "Name=tag-value,Values=mern-instance" --query "Reservations[*].Instances[*].PublicIpAddress" --output text)
+            bash ./trigger_gitlab_install.sh $public_ip
+          fi
