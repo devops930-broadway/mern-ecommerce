@@ -13,8 +13,14 @@ on:
         required: true
         type: string
         default: "NULL"
+<<<<<<< HEAD
       create_lab_machine:
         description: Input key id
+=======
+        
+  create_lab_machine:
+        description: 'Input key id'
+>>>>>>> da3b07dca61cc983a4b175bd140fa6277dec7b21
         required: true
         type: choice
         default: ec2-instance
