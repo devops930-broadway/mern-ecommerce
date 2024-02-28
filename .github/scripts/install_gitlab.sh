@@ -21,5 +21,6 @@ cd .github/Ansible
 echo "yes" | ansible all -m ping
 pwd
 ansible-galaxy role install geerlingguy.gitlab
+cd ~/mern-ecommerce/.github/Ansible
 ansible-playbook main.yaml
 
