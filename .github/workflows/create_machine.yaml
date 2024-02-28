@@ -14,7 +14,7 @@ on:
         type: string
         default: "NULL"
         
-        create_lab_machine:
+  create_lab_machine:
         description: 'Input key id'
         required: true
         type: choice
