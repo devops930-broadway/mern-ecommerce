@@ -17,7 +17,11 @@ echo "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBC
 cat /home/ubuntu/.ssh/id_ecdsa.pub > /home/ubuntu/.ssh/authorized_keys
 
 ## Create ansible project dir
-cd ../Ansible
-ansible all -m ping
+cd .github/Ansible
+echo "yes" | ansible all -m ping
+pwd
 ansible-galaxy role install geerlingguy.gitlab
+cd ~/mern-ecommerce/.github/Ansible
 ansible-playbook main.yaml
+
+
