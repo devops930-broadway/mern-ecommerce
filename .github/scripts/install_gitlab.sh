@@ -30,4 +30,4 @@ ansible-galaxy role install geerlingguy.gitlab || true
 echo "Checking path..."
 cd ~/mern-ecommerce/.github/Ansible
 pwd
-ansible-playbook main.yaml
+ansible-playbook main.yml
