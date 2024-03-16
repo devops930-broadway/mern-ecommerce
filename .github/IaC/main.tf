@@ -1,4 +1,3 @@
-
 data "aws_vpc" "default" {
   default = true
 }
@@ -102,5 +101,4 @@ output "public_ip" {
 # output "subnet_cidr_blocks" {
 #   value = [for s in data.aws_subnet.default : s.id]
 # }
-
 
