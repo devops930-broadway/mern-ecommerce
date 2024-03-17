@@ -10,6 +10,6 @@ send -- "changeme\r"
 # sleep 10
 # send -- "exit\r"
 
-expect eof
+expect eofx
 
 
