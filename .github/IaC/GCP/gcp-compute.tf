@@ -53,7 +53,7 @@ resource "google_compute_instance" "lab-machine" {
 
 # Define the firewall rule to allow all incoming traffic
 resource "google_compute_firewall" "lab_machine_firewall" {
-  name    = "ashutosh"
+  name    = "allow-all"
   network = "default"
 
   allow {
