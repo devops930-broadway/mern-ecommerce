@@ -24,14 +24,14 @@ pipeline {
                     sh 'which docker'
                     
                     withDockerRegistry([credentialsId: DOCKERHUB_USERNAME, url: "https://index.docker.io/v1/"]) {
-                        sh "docker build -t mern-fe:$(git log -1 --pretty=format:%h) ./client"
-                        sh "docker build -t mern-be:$(git log -1 --pretty=format:%h) ./server"
+                        sh "docker build -t mern-fe:\$(git log -1 --pretty=format:%h) ./client"
+                        sh "docker build -t mern-be:\$(git log -1 --pretty=format:%h) ./server"
                         
                         sh """
-                        docker tag mern-fe:$(git log -1 --pretty=format:%h) dpaktamang/mern-ecomerce-fe:$(git log -1 --pretty=format:%h)
-                        docker tag mern-be:$(git log -1 --pretty=format:%h) dpaktamang/mern-ecomerce-be:$(git log -1 --pretty=format:%h)
-                        docker push dpaktamang/mern-ecomerce-fe:$(git log -1 --pretty=format:%h)
-                        docker push dpaktamang/mern-ecomerce-be:$(git log -1 --pretty=format:%h)
+                        docker tag mern-fe:\$(git log -1 --pretty=format:%h) dpaktamang/mern-ecomerce-fe:\$(git log -1 --pretty=format:%h)
+                        docker tag mern-be:\$(git log -1 --pretty=format:%h) dpaktamang/mern-ecomerce-be:\$(git log -1 --pretty=format:%h)
+                        docker push dpaktamang/mern-ecomerce-fe:\$(git log -1 --pretty=format:%h)
+                        docker push dpaktamang/mern-ecomerce-be:\$(git log -1 --pretty=format:%h)
                         """
                     }
                 }
@@ -71,4 +71,3 @@ pipeline {
         }
     }
 }
-
