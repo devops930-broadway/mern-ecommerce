@@ -23,9 +23,11 @@ variable "server" {
 
 resource "google_compute_instance" "lab-machine" {
   name         = "gitlab-node-${var.branch_name}"
-  machine_type = "custom-2-6400"
+  machine_type = "custom-2-5120"
 
   zone         = "us-central1-a"
+
+  allow_stopping_for_update = true
 
   metadata = {
     # ssh-keys = "cloud_user_p_59cf731f:${file("./aleo_test_gcp_rsa.pub")}"
@@ -53,7 +55,7 @@ resource "google_compute_instance" "lab-machine" {
 
 # Define the firewall rule to allow all incoming traffic
 resource "google_compute_firewall" "lab_machine_firewall" {
-  name    = "allow-all"
+  name    = "allow-all-1"
   network = "default"
 
   allow {
