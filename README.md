@@ -31,6 +31,7 @@ Edit the dockercompose.yml file and update the the values for MONGO_URI and JWT_
 Then simply start the docker compose:
 ```
 $ docker compose -f dockercompose.yml up
+readme
 ```
 
 ## Database Seed
