@@ -34,15 +34,32 @@ jobs:
       
       - name: build backend
         run: docker build -t mern-be:$(git log -1 --pretty=format:%h) ./server
-      - name: upload docker images
-        run: |
-          docker images
-          docker tag mern-fe:$(git log -1 --pretty=format:%h) ${{ vars.DOCKER_REGISTRY_FE }}:$(git log -1 --pretty=format:%h)
-          docker tag mern-be:$(git log -1 --pretty=format:%h) ${{ vars.DOCKER_REGISTRY_BE }}:$(git log -1 --pretty=format:%h)
 
-          # push
-          docker push ${{ vars.DOCKER_REGISTRY_FE }}:$(git log -1 --pretty=format:%h)
-          docker push ${{ vars.DOCKER_REGISTRY_BE }}:$(git log -1 --pretty=format:%h)
+        name: upload docker images
+        run: |
+             docker images
+  
+            # Tag frontend Docker image
+             docker tag mern-fe:$(git log -1 --pretty=format:%h) sarunsarun/mern-fe:$(git log -1 --pretty=format:%h)
+  
+            # Tag backend Docker image
+            docker tag mern-be:$(git log -1 --pretty=format:%h) sarunsarun/mern-be:$(git log -1 --pretty=format:%h)
+
+            # Push frontend Docker image to Docker Hub
+            docker push sarunsarun/mern-fe:$(git log -1 --pretty=format:%h)
+  
+            # Push backend Docker image to Docker Hub
+            docker push sarunsarun/mern-be:$(git log -1 --pretty=format:%h)
+
+      # - name: upload docker images
+      #   run: |
+      #     docker images
+      #     docker sarunsarun mern-fe:$(git log -1 --pretty=format:%h) ${{ vars.DOCKER_REGISTRY_FE }}:$(git log -1 --pretty=format:%h)
+      #     docker sarunsarun mern-be:$(git log -1 --pretty=format:%h) ${{ vars.DOCKER_REGISTRY_BE }}:$(git log -1 --pretty=format:%h)
+
+      #     # push
+      #     docker push ${{ vars.DOCKER_REGISTRY_FE }}:$(git log -1 --pretty=format:%h)
+      #     docker push ${{ vars.DOCKER_REGISTRY_BE }}:$(git log -1 --pretty=format:%h)
   create_ec2:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
