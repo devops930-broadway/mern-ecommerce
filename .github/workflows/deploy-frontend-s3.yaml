@@ -2,7 +2,7 @@ name: Build and Deploy Frontend
 on:
   push:
     branches:
-      - 'main'
+      - 'master'
       # - develop
 
 jobs:
@@ -13,7 +13,6 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - name: Checkout code
       - uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -89,7 +88,7 @@ jobs:
         # env:
           # bucket_name: "coolcat-journeys-${{ github.ref_name }}"
         run: aws s3 sync . s3://${{ secrets.BUCKET_NAME }} --delete --only-show-errors --cache-control 'max-age=31536000' --no-progress
-        
-      - name: cloudfront invalidation
+
+    #  - name: cloudfront invalidation
         # env:
           # distribution_id: "${{ fromJson(steps.deployment_env.outputs.values).distribution_id }}"
