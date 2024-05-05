@@ -34,13 +34,15 @@ jobs:
         
       - name: upload docker images
         run: |
-          docker images
-          docker tag mern-fe:$(git log -1 --pretty=format:%h) ${{ vars.DOCKER_REGISTRY_FE }}:$(git log -1 --pretty=format:%h)
-          docker tag mern-be:$(git log -1 --pretty=format:%h) ${{ vars.DOCKER_REGISTRY_BE }}:$(git log -1 --pretty=format:%h)
+         docker images
+             # Tag frontend and backend images with the commit hash
+            docker tag mern-fe:$(git log -1 --pretty=format:%h) ${{ secrets.DOCKER_REGISTRY_FE }}/mern-fe:latest
+           docker tag mern-be:$(git log -1 --pretty=format:%h) ${{ secrets.DOCKER_REGISTRY_BE }}/mern-be:latest
 
-          # push
-          docker push ${{ vars.DOCKER_REGISTRY_FE }}:$(git log -1 --pretty=format:%h)
-          docker push ${{ vars.DOCKER_REGISTRY_BE }}:$(git log -1 --pretty=format:%h)
+            # Push images
+             docker push ${{ secrets.DOCKER_REGISTRY_FE }}/mern-fe:latest
+              docker push ${{ secrets.DOCKER_REGISTRY_BE }}/mern-be:latest
+
 
   create_ec2:
     runs-on: ubuntu-latest
