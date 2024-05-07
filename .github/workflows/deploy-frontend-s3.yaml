@@ -2,8 +2,10 @@ name: Build and Deploy Frontend
 on:
   push:
     branches:
-      - 'master'
-      # - develop
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
 
 jobs:
   build:
@@ -13,6 +15,7 @@ jobs:
       contents: read
       id-token: write
     steps:
+      - name: Checkout the code
       - uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -33,7 +36,7 @@ jobs:
         run: npm install --prefer-offline --no-fund
 
       - name: configureawscredentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -72,7 +75,7 @@ jobs:
           name: built-assets
 
       - name: configureawscredentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -89,6 +92,6 @@ jobs:
           # bucket_name: "coolcat-journeys-${{ github.ref_name }}"
         run: aws s3 sync . s3://${{ secrets.BUCKET_NAME }} --delete --only-show-errors --cache-control 'max-age=31536000' --no-progress
 
-      - name: cloudfront invalidation
+     # - name: cloudfront invalidation
         # env:
           # distribution_id: "${{ fromJson(steps.deployment_env.outputs.values).distribution_id }}"
