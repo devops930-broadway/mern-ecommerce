@@ -1,87 +1,125 @@
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnets" "default" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "5.46.0"
+    }
   }
 }
 
-data "aws_subnet" "default" {
-  for_each = toset(data.aws_subnets.default.ids)
-  id       = each.value
+provider "aws" {
+  region = "us-east-1"
 }
 
-output "aws_vpc_id" {
-  value = data.aws_vpc.default.id
+# Creating an S3 Bucket
+resource "aws_s3_bucket" "s3_bucket" {
+  bucket        = "mern_fe" 
+  force_destroy = true
 }
 
-data "aws_security_groups" "test" {
+# Creating S3 bucket website configuration
+resource "aws_s3_bucket_website_configuration" "mern_fe_bucket" {
+  bucket = aws_s3_bucket.s3_bucket.id
 
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
+  index_document {
+    suffix = "index.js"  
   }
 }
 
-
-data "template_file" "user_data" {
-  template = file("../scripts/user-data.sh")
+# Uploading JavaScript File to S3 using aws_s3_object
+resource "aws_s3_object" "index_js" {
+  bucket       = aws_s3_bucket.s3_bucket.id
+  key          = "index.js" 
+  source       = "Mern-ecommerce-trail-project/client/app/index.js"  
+  content_type = "application/javascript"  
 }
 
+# Creating CloudFront Distribution
+resource "aws_cloudfront_distribution" "s3_distribution" {
+  origin {
+    domain_name = aws_s3_bucket.s3_bucket.bucket_regional_domain_name
+    origin_id   = "s3-cloudfront"
 
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/*20.04-amd64-server-*"]
+    s3_origin_config {
+      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+    }
   }
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
+
+  enabled             = true
+  is_ipv6_enabled     = true
+  default_root_object = "index.js"
+
+  default_cache_behavior {
+    allowed_methods = [
+      "GET",
+      "HEAD",
+    ]
+
+    cached_methods = [
+      "GET",
+      "HEAD",
+    ]
+
+    target_origin_id = "s3-cloudfront"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
   }
-  owners = ["099720109477"]
-}
 
+  price_class = "PriceClass_All"
+  
+  viewer_certificate {
+    cloudfront_default_certificate = true
+  }
 
-# locals {
-#   parsed_security_groups = split(" ", var.vpc_security_group_ids)
-# }
-
-
-resource "aws_instance" "mern-instance" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
-
-  subnet_id              = [for s in data.aws_subnet.default : s.id][0]
-  vpc_security_group_ids = data.aws_security_groups.test.ids
-
+  wait_for_deployment = false
 
   tags = {
-    Name    = "mern-instance-user"
-    Project = "devops"
+    Name        = "MyCloudFrontDistribution"
+    Environment = "Production"
   }
-
-  user_data = data.template_file.user_data.rendered
+  
+  restrictions {
+    geo_restriction {
+    restriction_type = "none"
+  }
+  }
 }
 
-output "public_ip" {
-  value = aws_instance.mern-instance.public_ip
-}
-output "private_ip" {
-  value = aws_instance.mern-instance.private_ip
-}
+# Creating CloudFront Origin Access Identity
 
-
-output "aws_security_group" {
-  value = data.aws_security_groups.test.ids
+variable "domain_name" {
+  type    = string
+  default = ""  
 }
 
-output "subnet_cidr_blocks" {
-  value = [for s in data.aws_subnet.default : s.id]
+resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
+  comment = "access-identity-${var.domain_name}.s3.amazonaws.com"
 }
 
+# Adding Bucket Policy
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  bucket = aws_s3_bucket.s3_bucket.id
 
-
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadGetObject",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::${aws_s3_bucket.s3_bucket.id}/*"
+    }
+  ]
+}
+EOF
+}
