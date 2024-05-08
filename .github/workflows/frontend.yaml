@@ -50,7 +50,7 @@ jobs:
         with:
           name: built-assets
           path: build
-          retention-days: 1
+          retention-days: 30
   deploy:
     needs:
       - build
