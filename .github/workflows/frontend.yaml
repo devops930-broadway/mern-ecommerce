@@ -75,4 +75,4 @@ jobs:
           --cache-control 'max-age=31536000' --no-progress
       - name: cloudfront invalidation
         run: aws cloudfront create-invalidation --distribution-id ${{
-          secrets.DISTRIBUTION_ID }} --paths "/index.html"
+          secrets.DISTRIBUTION_ID }} --paths "/index.htmll"
