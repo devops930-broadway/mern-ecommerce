@@ -60,6 +60,10 @@ jobs:
       contents: read
       id-token: write
     steps:
+      - name: Download built artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: built-assets
       - name: configureawscredentials
         uses: aws-actions/configure-aws-credentials@v3
         with:
