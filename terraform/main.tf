@@ -15,7 +15,7 @@ provider "aws" {
 
 
 module "cloudfront_s3_website_with_domain" {
-  source                 = "../modules/terraform-aws-cloudfront-s3-website"
+  source                 = "./modules/terraform-aws-cloudfront-s3-website"
   tags                   = var.tags
   domain_name            = "devops630.example.com"
   cloudfront_min_ttl     = 10
