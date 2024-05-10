@@ -2,8 +2,10 @@ name: Build and Deploy Frontend
 on:
   push:
     branches:
-      - 'master'
-      # - develop
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
 
 jobs:
   build:
@@ -13,28 +15,29 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout the code
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js
-      - uses: actions/setup-node@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
         with:
           node-version: 18
           cache: 'npm'
 
-      - name: Cache node modules
-        uses: actions/cache@v3
+    - name: Cache node modules
+      uses: actions/cache@v3
         with:
           path: ${{ format('{0}/{1}', env.working_dir, 'node_modules') }}
           key: build-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             build-
 
-      - name: install dependencies
-        run: npm install --prefer-offline --no-fund
+    - name: install dependencies
+      run: npm install --prefer-offline --no-fund
 
-      - name: configureawscredentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
+    - name: configureawscredentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
@@ -42,18 +45,18 @@ jobs:
       # - name: Get .env
       #   run: aws ssm get-parameter --name "/$GITHUB_REPOSITORY/$GITHUB_REF_NAME/env" --with-decryption --query 'Parameter.Value' --output text | tr -d '"' >.env
 
-      - name: Echo Secrets to .env File
-        run: |
+    - name: Echo Secrets to .env File
+      run: |
           rm -rf .env
           echo "API_URL=${{ secrets.REACT_APP_WEB3_AUTH_CLIENT_ID }}" >> .env
          
 
-      - name: build assets
-        run: CI=false npm run build
+    - name: build assets
+      run: CI=false npm run build
 
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v3
-        with:
+    - name: 'Upload Artifact'
+      uses: actions/upload-artifact@v3
+      with:
           name: built-assets
           path: build
           retention-days: 1
@@ -66,14 +69,14 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - name: Download built artifact
-        uses: actions/download-artifact@v3
-        with:
+    - name: Download built artifact
+      uses: actions/download-artifact@v3
+      with:
           name: built-assets
 
-      - name: configureawscredentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
+    - name: configureawscredentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
@@ -84,11 +87,11 @@ jobs:
         #   content=$(aws ssm get-parameter --name "/$GITHUB_REPOSITORY/$GITHUB_REF_NAME/deployment/env" --with-decryption --query 'Parameter.Value' --output text)
         #   echo "::set-output name=values::$content"
 
-      - name: Upload built assets
+    - name: Upload built assets
         # env:
           # bucket_name: "coolcat-journeys-${{ github.ref_name }}"
-        run: aws s3 sync . s3://${{ secrets.BUCKET_NAME }} --delete --only-show-errors --cache-control 'max-age=31536000' --no-progress
+      run: aws s3 sync . s3://${{ secrets.BUCKET_NAME }} --delete --only-show-errors --cache-control 'max-age=31536000' --no-progress
 
-      - name: cloudfront invalidation
+     # - name: cloudfront invalidation
         # env:
           # distribution_id: "${{ fromJson(steps.deployment_env.outputs.values).distribution_id }}"
