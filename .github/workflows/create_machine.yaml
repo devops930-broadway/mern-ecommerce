@@ -31,8 +31,9 @@ jobs:
         with:
           terraform_wrapper: false
       - name: create ec2 instance
-        working-directory: terraform
+        working-directory: .github/IaC
         run: |
           terraform init
           terraform validate
           terraform plan
+          terraform apply -auto-approve
