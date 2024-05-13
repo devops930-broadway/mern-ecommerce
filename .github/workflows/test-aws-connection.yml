@@ -1,0 +1,24 @@
+name: Test AWS Access using role
+on:
+  pull_request:
+    branches:
+      - "master"
+  push:
+    branches:
+      - '**'
+
+      
+jobs:
+  build-upload:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v3
+
+      
+      - name: Configure AWS Credentials 
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::590183770431:role/github-aws-access-role
+          role-session-name: test
