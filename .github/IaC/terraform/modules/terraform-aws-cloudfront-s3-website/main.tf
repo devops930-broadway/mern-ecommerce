@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "5.46.0"
     }
   }
@@ -29,7 +29,7 @@ resource "random_string" "random" {
 
 # Creating an S3 Bucket
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket        = "mernfrontend-${random_string.random.result}"
+  bucket        = "mern_fe${random_string.random.result}"
   force_destroy = true
 }
 
@@ -182,10 +182,10 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
   restrictions {
     geo_restriction {
       restriction_type = var.cloudfront_geo_restriction_restriction_type
-      locations = []
+      locations        = []
     }
   }
-  
+
   viewer_certificate {
     cloudfront_default_certificate = true
   }
