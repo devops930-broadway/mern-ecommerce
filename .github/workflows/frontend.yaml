@@ -32,13 +32,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - name: Echo Secrets to .env File
-        run: |
-          rm -rf .env
-          echo "REACT_APP_WEB3_AUTH_CLIENT_ID=${{ secrets.REACT_APP_WEB3_AUTH_CLIENT_ID }}" >> .env
-          echo "REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}" >> .env
-          echo "REACT_APP_WEB3_AUTH_ENV=${{ secrets.REACT_APP_WEB3_AUTH_ENV }}" >> .env
-          echo "REACT_APP_WC_PROJECT_ID=${{ secrets.REACT_APP_WC_PROJECT_ID }}" >> .env
+  
       - name: build assets
         run: CI=false npm run build
       - name: Upload built assets to S3 and CloudFront Invalidation
