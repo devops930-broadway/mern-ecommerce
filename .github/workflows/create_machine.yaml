@@ -1,4 +1,4 @@
-name: Create Lab Machine
+name: Create web app infra
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ on:
         default: "NULL"
 
 jobs:
-  create-ec2-instance:
+  create-infra:
     runs-on: ubuntu-latest
     environment: ${{ github.ref_name }}
     steps:
@@ -30,8 +30,8 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_wrapper: false 
-      - name: create ec2 instance
-        working-directory: .github/IaC
+      - name: provision infra
+        working-directory: terraform
         run: |
           terraform init
           terraform validate
