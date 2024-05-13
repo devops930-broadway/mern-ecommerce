@@ -46,11 +46,8 @@ jobs:
     - name: Echo Secrets to .env File
       run: |
           rm -rf .env
-          echo "REACT_APP_WEB3_AUTH_CLIENT_ID=${{ secrets.REACT_APP_WEB3_AUTH_CLIENT_ID }}" >> .env
-          echo "REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}" >> .env
-          echo "REACT_APP_WEB3_AUTH_ENV=${{ secrets.REACT_APP_WEB3_AUTH_ENV }}" >> .env
-          echo "REACT_APP_WC_PROJECT_ID=${{ secrets.REACT_APP_WC_PROJECT_ID }}" >> .env 
-
+          API_URL=http://localhost:3000/api
+          
     - name: build assets
       run: CI=false npm run build
 

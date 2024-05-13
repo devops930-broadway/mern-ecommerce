@@ -31,7 +31,7 @@ jobs:
         with:
           terraform_wrapper: false
       - name: create ec2 instance
-        working-directory: .github/IaC
+        working-directory: terraform
         run: |
           terraform init
           terraform validate
