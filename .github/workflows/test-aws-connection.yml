@@ -22,6 +22,6 @@ jobs:
       - name: Configure AWS Credentials 
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::208008919314:role/AllowGithubActionTriggerLambda
-          role-session-name: test
+          aws-region: "us-east-1"
+          role-to-assume: "arn:aws:iam::590183770431:role/github-aws-access-role"
+          role-session-name: lambda
