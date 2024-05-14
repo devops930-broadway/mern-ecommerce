@@ -35,6 +35,7 @@ jobs:
           IMAGE_URI="${ECR_REGISTRY}:${{ env.TAG }}"
           echo "ECR_REGISTRY=${ECR_REGISTRY}"
           echo "IMAGE_URI=${IMAGE_URI}"
+          cd server
 
           docker build -t ${ECR_REPOSITORY} .
           aws ecr get-login-password --region ${{ secrets.AWS_DEFAULT_REGION }} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
