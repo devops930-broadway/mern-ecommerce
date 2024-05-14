@@ -29,7 +29,7 @@ resource "random_string" "random" {
 
 # Creating an S3 Bucket
 resource "aws_s3_bucket" "s3_bucket" {
-  bucket        = "mern_fe${random_string.random.result}"
+  bucket        = "mernfrontend-${random_string.random.result}"
   force_destroy = true
 }
 
