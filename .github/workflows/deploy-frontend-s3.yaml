@@ -2,8 +2,7 @@ name: Build and Deploy Frontend
 on:
   push:
     branches:
-      - 'devlopment1'
-  
+      - thapafinalproject
 
 jobs:
   build-and-deploy:
@@ -13,52 +12,30 @@ jobs:
       contents: read
       id-token: write
     steps:
-    - name: Checkout the code
-      uses: actions/checkout@v3
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-        cache: 'npm'
-
-    - name: Cache node modules
-      uses: actions/cache@v3
-      with:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: npm
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
           path: ${{ format('{0}/{1}', env.working_dir, 'node_modules') }}
           key: build-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             build-
-
-    - name: install dependencies
-      run: npm install --prefer-offline --no-fund
-
-    - name: configureawscredentials
-      uses: aws-actions/configure-aws-credentials@v3
-      with:
+      - name: install dependencies
+        run: npm install --prefer-offline --no-fund
+      - name: configureawscredentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      # - name: Get .env
-      #   run: aws ssm get-parameter --name "/$GITHUB_REPOSITORY/$GITHUB_REF_NAME/env" --with-decryption --query 'Parameter.Value' --output text | tr -d '"' >.env
-
-    - name: Echo Secrets to .env File
-      run: |
-          rm -rf .env
-          API_URL=http://localhost:3000/api
-          
-    - name: build assets
-      run: CI=false npm run build
-
-    - name: 'Upload Artifact'
-      uses: actions/upload-artifact@v3
-      with:
-          name: built-assets
-          path: build
-          retention-days: 1
-
-    - name: Upload built assets to s3 and Cloudfront Invalidation
-      run: |
-        aws s3 sync . s3://${{ secrets.BUCKET_NAME }} --delete --only-show-errors --cache-control 'max-age=31536000' --no-progress
-        aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/index.html"
+      - name: build assets
+        run: CI=false npm run build
+      - name: Upload built assets to S3 and CloudFront Invalidation
+        run: |
+          aws s3 sync . s3://${{ secrets.BUCKET_NAME }} --delete --only-show-errors --cache-control 'max-age=31536000' --no-progress
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/index.html"
