@@ -93,7 +93,7 @@ $ npm start
 - [Webpack](https://webpack.js.org/)
 
 
-### Code Formatter
+### Code Formatter,,,
 
 - Add a `.vscode` directory
 - Create a file `settings.json` inside `.vscode`
