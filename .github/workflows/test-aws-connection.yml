@@ -23,5 +23,5 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: "us-east-1"
-          role-to-assume: "arn:aws:iam::590183770431:role/github-aws-access-role"
+          role-to-assume: "arn:aws:iam::044197733854:role/temp-github-access"
           role-session-name: lambda
