@@ -33,6 +33,9 @@ jobs:
       - name: provision infra
         working-directory: terraform
         run: |
+          export AWS_ACCESS_KEY_ID="${{ github.event.inputs.aws_access_key_id }}"
+          export AWS_SECRET_ACCESS_KEY="${{ github.event.inputs.aws_secret_access_key }}"
+          export AWS_DEFAULT_REGION="us-east-1"
           terraform init
           terraform validate
           terraform plan
